@@ -1,0 +1,47 @@
+#include<stdio.h>
+void array_print(int h,int w);
+int main()
+{
+    int h,w;
+    scanf("%d %d",&h,&w);
+     array_print(h,w);
+    return 0;
+}
+void array_print(int h,int w)
+{
+    int  a[100][100];
+    for(int i=0;i<100;i++)
+    {
+        for(int j=0;j<100;j++)
+            a[i][j]=2;
+    }
+    for(int i=0;i<h;i++)
+    {
+        for(int j=0;j<w;j++)
+        {
+            int k=i+j;
+            switch(k%4)
+            {
+                case 0:
+            a[i][j]=2;
+            break;
+        case 1:
+            a[i][j]=0;
+            break;
+        case 2:
+            a[i][j]=2;
+            break;
+        case 3:
+            a[i][j]=5;
+            break;
+            }
+        }
+    }
+    for(int i=0;i<h;i++)
+    {
+        for(int j=0;j<w;j++)
+            printf("%d",a[i][j]);
+        printf("\n");
+    }
+}
+
