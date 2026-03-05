@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<limits.h>
+/*最短距离问题：
+思路一贪心算法思想：两组坐标存在两个数组里，
+在数组一中选择一个坐标，
+查找与之对应的数组二里的最近的元素，
+计算两者差的绝对值，求和
+*/
+
+//错误，贪心没有得到全局最优解
+int abs(int a,int b);//Absolute value Function
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    int a[n],b[n];
+    for(int i=0;i<n;i++)
+        scanf("%d",&a[i]);
+    for(int i=0;i<n;i++)
+        scanf("%d",&b[i]);
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        int Distance_min=INT_MAX;
+        for(int j=0;j<n;j++)
+        {
+            if(abs(a[i],b[j])<Distance_min&&b[j]!=-1)
+            {
+                Distance_min=abs(a[i],b[j]);
+                b[j]=-1;
+            }
+        }
+        sum+=Distance_min;
+    }
+    printf("%d",sum);
+    return 0;
+}
+int abs(int a,int b)
+{
+    if(a>b)
+        return a-b;
+    else
+        return b-a;
+}
+
+
+
+
