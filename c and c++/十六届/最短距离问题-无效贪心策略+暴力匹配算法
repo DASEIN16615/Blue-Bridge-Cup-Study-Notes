@@ -7,7 +7,7 @@
 计算两者差的绝对值，求和
 */
 
-//错误，贪心没有得到全局最优解
+//错误，贪心没有得到全局最优解，没有满足贪心选择性质和最优子结构性质。
 int abs(int a,int b);//Absolute value Function
 int main()
 {
