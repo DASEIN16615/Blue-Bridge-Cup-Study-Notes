@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LEN 200010  // 数组开大一点
+
+int n, a[MAX_LEN], p, l;  // p用于记录小数点位置，l为字符串长度
+char q[MAX_LEN];
+
+// 乘法函数：所有位乘以2
+void multiply() 
+{
+    // 按位乘2
+    for (int i = 1; i <= l; i++) 
+    {
+        a[i] *= 2;
+    }
+    // 处理进位
+    for (int i = 1; i <= l; i++) 
+    {
+        a[i + 1] += a[i] / 10;
+        a[i] %= 10;
+    }
+    // 如果最高位的前一位进位后不是0就要增加长度
+    if (a[l + 1] > 0) {
+        l++;
+    }
+}
+
+int main() 
+{
+    // 输入
+    scanf("%d %s", &n, q);
+    // 反转字符串
+    int len = strlen(q);
+    for (int i = 0; i < len / 2; i++) 
+    {
+        char temp = q[i];
+        q[i] = q[len - 1 - i];
+        q[len - 1 - i] = temp;
+    }
+    // 查找小数点位置
+    p = -1;
+    for (int i = 0; i < len; i++) 
+    {
+        if (q[i] == '.') 
+        {
+            p = i;
+            break;
+        }
+    }
+    if (p == -1) 
+    {
+        printf("错误：输入中没有小数点！\n");
+        return 1;
+    }
+    // 删除小数点
+    for (int i = p; i < len - 1; i++) 
+    {
+        q[i] = q[i + 1];
+    }
+    len--;  // 长度减1
+    // 字符串转整数数组
+    l = len;
+    for (int i = 0; i < l; i++) 
+    {
+        a[i + 1] = q[i] - '0';
+    }
+        // n次乘2
+    for (int i = 1; i <= n; i++) 
+    {
+        multiply();
+    }
+    // 四舍五入：小数部分第一位>=5则进位
+    if (a[p] >= 5) 
+    {
+        a[p + 1]++;
+    }
+    // 处理进位
+    for (int i = p + 1; i <= l; i++) 
+    {
+        a[i + 1] += a[i] / 10;
+        a[i] %= 10;
+    }
+    // 再次检查最高位
+    if (a[l + 1] > 0) 
+    {
+        l++;
+    }
+    // 输出结果（因为前面逆序了所以这里倒着输出）
+    for (int i = l; i > p; i--) 
+    {
+        printf("%d", a[i]);
+    }
+    printf("\n");
+    
+    return 0;
+}
