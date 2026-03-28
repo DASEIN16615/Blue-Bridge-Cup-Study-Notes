@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define MAXN 100005
+int s[MAXN];
+int n;
+int cnt[MAXN];             // 每个因子的计数
+int result[3];             // 最终结果：三颗宝石
+// 快速升序比较函数
+int cmp(const void* a, const void* b) {
+
+    return *(int*)a - *(int*)b;
+
+}
+int main() 
+{
+    scanf("%d", &n);
+    for (int i = 0; i < n; ++i) 
+    {
+
+        scanf("%d", &s[i]);
+
+    }
+    qsort(s, n, sizeof(int), cmp); // 升序排序，保证字典序最小
+    // 遍历每颗宝石，放入对应因子的桶（最多存3个）
+
+    for (int i = 0; i < n; ++i) 
+    {
+        int val = s[i];
+        int sq = (int)sqrt(val);
+        for (int j = 1; j <= sq; ++j) 
+        {
+            if (val % j == 0) 
+            {
+                int a = j, b = val / j;
+                if (cnt[a] < 3) 
+                {
+                    if (cnt[a] == 0) 
+                        result[0] = val;
+                    else if (cnt[a] == 1) 
+                        result[1] = val;
+                    else 
+                        result[2] = val;
+                    cnt[a]++;
+                }
+                if (a != b && cnt[b] < 3) 
+                {
+                    if (cnt[b] == 0) 
+                        result[0] = val;
+                    else if (cnt[b] == 1) 
+                        result[1] = val;
+                    else 
+                        result[2] = val;
+                    cnt[b]++;
+                }
+            }
+        }
+    }
+    // 从大到小找第一个桶里有3个数的因子
+    for (int i = MAXN - 1; i >= 1; --i) 
+    {
+        if (cnt[i] >= 3) 
+        {
+            int c = 0;
+            for (int j = 0; j < n && c < 3; ++j)
+             {
+                if (s[j] % i == 0) 
+                {
+                    result[c++] = s[j];
+                }
+            }
+            printf("%d %d %d\n", result[0], result[1], result[2]);
+            break;
+        }
+    }
+    return 0;
+}
+
