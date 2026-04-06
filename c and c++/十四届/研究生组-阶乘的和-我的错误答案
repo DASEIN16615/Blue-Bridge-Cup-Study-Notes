@@ -1,0 +1,90 @@
+#include<iostream>
+#include<stdio.h>
+#include<stdlib.h>
+#include<cmath>
+
+using namespace std;
+int Factorial(int x);
+int inverse_Factorial(int x);
+int main()
+{
+	int n;
+	cin >> n;
+	
+	int a[n];
+			
+	int m=1;
+
+	int count=0;
+	
+	for(int i=0;i<n;i++)
+		cin >> a[i];
+		
+	int sum=0;
+	
+	for(int i=0;i<n;i++)//计算阶乘和 
+		sum+=Factorial(a[i]);
+	
+	int s=sum;
+	
+	int sum_factors[s];//存入sum的所有因数 
+	
+	int factorial_m[s-1];//存入m小于sqrt(n)的阶乘 
+	
+	for(int i=0;i<s-1;i++)
+		factorial_m[i]=0;
+	
+	for(int i=0;i<s-1;i++)//存入所有的m小于sqrt(sum)的阶乘 
+	{
+		if(Factorial(m)<=s)
+			factorial_m[i]=Factorial(m); 
+		m++;
+	}
+	
+	for(int i=1;i<=sum;i++)
+	{ 
+		if(sum%i==0)
+			sum_factors[count++]=i;
+		else sum_factors[count++]=-1;
+	}
+	/*
+	cout << "阶乘的和为：" << sum << endl;
+	cout << "m的阶乘为：" ; 
+	for(int i=0;i<s-1;i++)
+		cout << factorial_m[i] << "  ";
+		
+	cout << endl;
+	cout << "sum的因子为：" ;
+	for(int i=0;i<s;i++)
+		cout <<sum_factors[i] << "  ";
+		
+	cout << endl;
+	*/
+	for(int i=s-1;i>=0;i--)
+	{
+		for(int j=s-2;j>=0;j--)
+		{
+			if(sum_factors[i]==factorial_m[j])
+			{
+				
+				cout << inverse_Factorial(factorial_m[j]);
+				return 0;
+			}	
+		}
+	}
+}
+int inverse_Factorial(int x)
+{
+	for(int i=1;;i++)
+	{
+		if(Factorial(i)==x)
+		return i;
+	}
+}
+int Factorial(int x)
+{
+	if(x==1)
+		return 1;
+	else 
+		return x*Factorial(x-1);
+}
